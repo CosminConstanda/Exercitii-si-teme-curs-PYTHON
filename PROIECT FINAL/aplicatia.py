@@ -1,6 +1,5 @@
 import sqlite3
 from tkinter import *
-from tkinter import ttk
 import tkinter as tk
 
 program = tk.Tk()
