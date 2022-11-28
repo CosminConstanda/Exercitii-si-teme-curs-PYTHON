@@ -12,6 +12,7 @@ storeName = "AUTO NOVA"
 icon_image = tk.PhotoImage(file="AUTONOVA logo.png")
 program.iconphoto(False, icon_image)
 
+
 # --------- Background AUTO NOVA --------- #
 
 program.configure(background ="GRAY")
@@ -25,12 +26,6 @@ program.configure(background ="GRAY")
 
 
 # --------- FUNCTIONS --------- #
-
-
-# def reverse(tuples):
-#     new_tup = tuples[::-1]
-#     return new_tup
-
 
 def insert( id, nume, pret, cantitate):
     conn = sqlite3.connect("data.db")
@@ -54,7 +49,7 @@ def delete(data):
     conn.commit()
 
 
-def update(id, nume, pret, cantitate,  idNume):
+def update(id, nume, pret, cantitate):
     conn = sqlite3.connect("data.db")
     cursor = conn.cursor()
 
@@ -62,48 +57,88 @@ def update(id, nume, pret, cantitate,  idNume):
         inventory(itemId TEXT, itemNume TEXT, itemPret TEXT, itemCantitate TEXT)""")
 
     cursor.execute("UPDATE inventory SET itemId = '" + str(id) + "', itemNume = '" + str(nume) + "', itemPret = '" + str(pret) + "', itemCantitate = '" +
-                   str(cantitate) + "' WHERE itemId='"+str(idNume)+"'")
+                   str(cantitate) + "' WHERE itemId='"+str(id)+"'")
     conn.commit()
 
 
-def read():
+# def read():
+#     conn = sqlite3.connect("data.db")
+#     cursor = conn.cursor()
+#
+#     cursor.execute("""CREATE TABLE IF NOT EXISTS
+#         inventory(itemId TEXT, itemNume TEXT, itemPret TEXT, itemCantitate TEXT)""")
+#
+#     cursor.execute("SELECT * FROM inventory")
+#     results = cursor.fetchall()
+#     conn.commit()
+#     return results
+
+def id_existent():
     conn = sqlite3.connect("data.db")
     cursor = conn.cursor()
 
     cursor.execute("""CREATE TABLE IF NOT EXISTS 
         inventory(itemId TEXT, itemNume TEXT, itemPret TEXT, itemCantitate TEXT)""")
 
-    cursor.execute("SELECT * FROM inventory")
+    cursor.execute("SELECT itemId FROM inventory")
     results = cursor.fetchall()
+    id_uri = []
+    for i in results:
+        id_uri.append(i[0])
     conn.commit()
-    return results
+    return id_uri
 
 def insert_data():
     itemId = str(entryId.get())
     itemNume = str(entryNume.get())
     itemPret = str(entryPret.get())
     itemCantitate = str(entryCantitate.get())
-    if itemId == "" or itemNume == " ":
+    listId = id_existent()
+    if itemId == "" or itemId == " " or itemId in listId:
         print("Error Inserting Id")
+        return
     if itemNume == "" or itemNume == " ":
         print("Error Inserting Nume")
+        return
     if itemPret == "" or itemPret == " ":
         print("Error Inserting Pret")
+        return
     if itemCantitate == "" or itemCantitate == " ":
         print("Error Inserting Cantitate")
+        return
     else:
         insert(str(itemId), str(itemNume), str(itemPret), str(itemCantitate))
 
 def delete_data():
-    selected_item = my_tree.selection()[0]
-    deleteData = str(my_tree.item(selected_item)['values'][0])
-    delete(deleteData)
+    itemId = str(entryId.get())
+    listId = id_existent()
+    if itemId == "" or itemId == " " or itemId not in listId:
+        print("Error Id invalid!")
+    else:
+        delete(str(itemId))
+
 
 
 def update_data():
-    selected_item = my_tree.selection()[0]
-    update_name = my_tree.item(selected_item)['values'][0]
-    update(entryId.get(), entryNume.get(), entryPret.get(), entryCantitate.get(), update_name)
+    itemId = str(entryId.get())
+    itemNume = str(entryNume.get())
+    itemPret = str(entryPret.get())
+    itemCantitate = str(entryCantitate.get())
+    listId = id_existent()
+    if itemId == "" or itemId == " " or itemId not in listId:
+        print("Error ID invalid!")
+        return
+    if itemNume == "" or itemNume == " ":
+        print("Error Nume invalid!")
+        return
+    if itemPret == "" or itemPret == " ":
+        print("Error Pret invalid!")
+        return
+    if itemCantitate == "" or itemCantitate == " ":
+        print("Error Cantitate invalid!")
+        return
+    else:
+        update(str(itemId), str(itemNume), str(itemPret), str(itemCantitate))
 
 
 # --------- LABELs --------- #
