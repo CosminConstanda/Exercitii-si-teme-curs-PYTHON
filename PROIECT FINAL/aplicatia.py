@@ -78,6 +78,32 @@ def read():
     conn.commit()
     return results
 
+def insert_data():
+    itemId = str(entryId.get())
+    itemNume = str(entryNume.get())
+    itemPret = str(entryPret.get())
+    itemCantitate = str(entryCantitate.get())
+    if itemId == "" or itemNume == " ":
+        print("Error Inserting Id")
+    if itemNume == "" or itemNume == " ":
+        print("Error Inserting Nume")
+    if itemPret == "" or itemPret == " ":
+        print("Error Inserting Pret")
+    if itemCantitate == "" or itemCantitate == " ":
+        print("Error Inserting Cantitate")
+    else:
+        insert(str(itemId), str(itemNume), str(itemPret), str(itemCantitate))
+
+def delete_data():
+    selected_item = my_tree.selection()[0]
+    deleteData = str(my_tree.item(selected_item)['values'][0])
+    delete(deleteData)
+
+
+def update_data():
+    selected_item = my_tree.selection()[0]
+    update_name = my_tree.item(selected_item)['values'][0]
+    update(entryId.get(), entryNume.get(), entryPret.get(), entryCantitate.get(), update_name)
 
 
 # --------- LABELs --------- #
@@ -107,17 +133,17 @@ entryCantitate.grid(row=4, column=1, columnspan=3, padx=5, pady=5)
 
 buttonEnter = Button(
     program, text="Creeaza", padx=5, pady=5, width=6,
-    bd=3, font=('Arial', 12), bg="Cadet Blue",)
+    bd=3, font=('Arial', 12), bg="Cadet Blue", command=insert_data)
 buttonEnter.grid(row=5, column=1, columnspan=1)
 
 buttonUpdate = Button(
     program, text="Update", padx=5, pady=5, width=6,
-    bd=3, font=('Arial', 12), bg="Cadet Blue", )
+    bd=3, font=('Arial', 12), bg="Cadet Blue",command=update_data )
 buttonUpdate.grid(row=5, column=2, columnspan=1)
 
 buttonDelete = Button(
     program, text="Sterge", padx=5, pady=5, width=6,
-    bd=3, font=('Arial', 12), bg="Cadet Blue",)
+    bd=3, font=('Arial', 12), bg="Cadet Blue",command=delete_data)
 buttonDelete.grid(row=5, column=3, columnspan=1)
 
 
