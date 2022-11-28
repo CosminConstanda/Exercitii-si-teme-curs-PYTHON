@@ -27,9 +27,9 @@ program.configure(background ="GRAY")
 # --------- FUNCTIONS --------- #
 
 
-def reverse(tuples):
-    new_tup = tuples[::-1]
-    return new_tup
+# def reverse(tuples):
+#     new_tup = tuples[::-1]
+#     return new_tup
 
 
 def insert( id, nume, pret, cantitate):
@@ -39,8 +39,56 @@ def insert( id, nume, pret, cantitate):
     cursor.execute("""CREATE TABLE IF NOT EXISTS 
     inventory(itemId TEXT, itemNume TEXT, itemPret TEXT, itemCantitate TEXT)""")
 
-    cursor.execute("INSERT INTO inventory VALUES ('" + str(id) + "','" + str(nume) + "','" + str(pret) + "','" + str(cantitate) + "')")
+    cursor.execute("INSERT INTO inventory VALUES ('" + str(id) + "','" + str(nume) + "','" + str(pret) + "','" +
+                   str(cantitate) + "')")
     conn.commit()
+
+def delete( id, nume, pret, cantitate):
+    conn = sqlite3.connect("data.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""CREATE TABLE IF NOT EXISTS 
+    inventory(itemId TEXT, itemNume TEXT, itemPret TEXT, itemCantitate TEXT)""")
+
+    cursor.execute("INSERT INTO inventory VALUES ('" + str(id) + "','" + str(nume) + "','" + str(pret) + "','" +
+                   str(cantitate) + "')")
+    conn.commit()
+
+def delete(data):
+    conn = sqlite3.connect("data.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""CREATE TABLE IF NOT EXISTS 
+        inventory(itemId TEXT, itemNume TEXT, itemPret TEXT, itemCantitate TEXT)""")
+
+    cursor.execute("DELETE FROM inventory WHERE itemId = '" + str(data) + "'")
+    conn.commit()
+
+
+def update(id, nume, pret, cantitate,  idNume):
+    conn = sqlite3.connect("data.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""CREATE TABLE IF NOT EXISTS 
+        inventory(itemId TEXT, itemNume TEXT, itemPret TEXT, itemCantitate TEXT)""")
+
+    cursor.execute("UPDATE inventory SET itemId = '" + str(id) + "', itemNume = '" + str(nume) + "', itemPret = '" + str(pret) + "', itemCantitate = '" +
+                   str(cantitate) + "' WHERE itemId='"+str(idNume)+"'")
+    conn.commit()
+
+
+def read():
+    conn = sqlite3.connect("data.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""CREATE TABLE IF NOT EXISTS 
+        inventory(itemId TEXT, itemNume TEXT, itemPret TEXT, itemCantitate TEXT)""")
+
+    cursor.execute("SELECT * FROM inventory")
+    results = cursor.fetchall()
+    conn.commit()
+    return results
+
 
 
 # --------- LABELs --------- #
