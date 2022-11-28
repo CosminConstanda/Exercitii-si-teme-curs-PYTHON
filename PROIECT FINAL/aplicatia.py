@@ -43,16 +43,6 @@ def insert( id, nume, pret, cantitate):
                    str(cantitate) + "')")
     conn.commit()
 
-def delete( id, nume, pret, cantitate):
-    conn = sqlite3.connect("data.db")
-    cursor = conn.cursor()
-
-    cursor.execute("""CREATE TABLE IF NOT EXISTS 
-    inventory(itemId TEXT, itemNume TEXT, itemPret TEXT, itemCantitate TEXT)""")
-
-    cursor.execute("INSERT INTO inventory VALUES ('" + str(id) + "','" + str(nume) + "','" + str(pret) + "','" +
-                   str(cantitate) + "')")
-    conn.commit()
 
 def delete(data):
     conn = sqlite3.connect("data.db")
