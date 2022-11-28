@@ -43,7 +43,6 @@ def insert( id, nume, pret, cantitate):
                    str(cantitate) + "')")
     conn.commit()
 
-
 def delete(data):
     conn = sqlite3.connect("data.db")
     cursor = conn.cursor()
